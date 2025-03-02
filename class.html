@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MJ Online - Dynamic UI</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            transition: background 0.5s;
+        }
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .product {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .product:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MJ Online</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cart.php">Cart</a></li>
+                <li><a href="admin.php">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="products" id="productContainer">
+    </section>
+    
+    <script>
+        function generateRandomColor() {
+            const colors = ["#FF5733", "#33FF57", "#3357FF", "#F39C12", "#8E44AD"];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function generateProducts() {
+            const productContainer = document.getElementById("productContainer");
+            productContainer.innerHTML = "";
+            
+            for (let i = 1; i <= 4; i++) {
+                let productDiv = document.createElement("div");
+                productDiv.className = "product";
+                productDiv.style.background = generateRandomColor();
+                productDiv.innerHTML = `<h2>Product ${i}</h2><p>Price: $${i * 10}</p><button onclick="addToCart(${i}, 'Product ${i}', ${i * 10})">Add to Cart</button>`;
+                productContainer.appendChild(productDiv);
+            }
+        }
+
+        function addToCart(id, name, price) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ id, name, price });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(name + ' added to cart!');
+        }
+
+        document.body.style.background = generateRandomColor();
+        generateProducts();
+    </script>
+</body>
+</html>
